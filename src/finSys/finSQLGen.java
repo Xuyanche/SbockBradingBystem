@@ -22,7 +22,7 @@ public class finSQLGen {
 	
 	
 	
-	
+	/*
 	public static void main() {
 		Scanner input = new Scanner(System.in);
 		String read = input.next();
@@ -30,7 +30,7 @@ public class finSQLGen {
 		System.out.println(finSearch(read));
 		return;
 	}
-		
+	 */
 	
 	//---------------- sql for fintable ---------------------------------------
 	
@@ -42,23 +42,21 @@ public class finSQLGen {
 		
 		return sqlselect + sqlfrom + sqlwhere;
 	}
-	// update fintable set pwd = newpwd where id = finID;
-	// update fintable set pwd = newpwd where id = finID;
-	public static String finUpdatepwd(String FinID, String newpwd) {
-		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
+
+	// update fintable set pwd = newpwd where id = finID and password = pwd;
+	public static String finUpdatepwd(String FinID, String pwd, String newpwd) {
+		String sqlwhere =  " where " + IDColName + " = " + FinID + " and " + pwdColName + " = " + pwd + " ;";
 		return "update " + finTabName + " set " + pwdColName + " = " + newpwd + sqlwhere;
 	}
-	// select pwd from fintable where id = finID;
 	
-	// select pwd from fintable where id = finID;
+	// select pwd from fintable where id = finID and password = pwd;
 	public static String finCheckpwd(String FinID, String pwd) {
 		String sqlselect = " select " + pwdColName;
 		String sqlfrom = " from " + finTabName;
-		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
+		String sqlwhere =  " where " + IDColName + " = " + FinID + " and " + pwdColName + " = " + pwd + " ;";
 		
 		return sqlselect + sqlfrom + sqlwhere;
 	}
-	// update fintable set balance = balance + (amount) where id = finID;
 	
 	// update fintable set balance = balance + (amount) where id = finID;
 	public static String finUpateBalance(String FinID, double amount) {
@@ -68,7 +66,6 @@ public class finSQLGen {
 	}
 	
 	// insert into fintable values (finID, SecID, pwd, balance, 0, true);
-	// insert into fintable values ();
 	public static String finNewAccount(String FinID, String SecID, String pwd, String balance) {
 		String sqlValues = " values ( " 
 				+ FinID + " , " + SecID + " , " + pwd + " , " + balance + " ,  0 , true" + " ); ";
@@ -76,26 +73,26 @@ public class finSQLGen {
 	}
 	
 	// update fintable set state = false/true where id = FinID;
-	// update fintable set state = true/false where id = finID;
 	public static String finSetState(String FinID, boolean statevalue) {
 		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
 		return "udpate " + finTabName + " set "+ stateColName + " = " + ((statevalue) ? "true" : "false") + sqlwhere;
 	}
 	
-	// use to calculate interest, use multiquery to excute this sql
-	// use to calculate interest, when use excute with mutiquery
-	public static String finCalInterest() {
+	// use to calculate interest, use multiquery to execute this sql
+	public static String[] finCalInterest() {
+		
+		String q[] = new String[3];
 		// update fintable set interest = interest + balance * rate;
 		String sqlset1 =  " set " + interestColName + " = " + interestColName + " + " + balColName + " * " + Double.toString(interestRate) + " ;";
-		String q1 = "update " + finTabName + sqlset1;
+		q[0] = "update " + finTabName + sqlset1;
 		// update fintable set balance = balance + floor(interest);
 		String sqlset2 =  " set " + balColName + " = " + balColName + " + floor(" + interestColName + " ); " ;
-		String q2 = "update " + finTabName + sqlset2;
+		q[1] = "update " + finTabName + sqlset2;
 		// update fintable set interest = interest - floor(interest);
 		String sqlset3 =  " set " + interestColName + " = " + interestColName + " - floor(" + interestColName + " ); " ;
-		String q3 = "update " + finTabName + sqlset3;
+		q[2] = "update " + finTabName + sqlset3;
 		
-		return q1 + q2 + q3;
+		return q;
 	}
 	
 	
@@ -112,6 +109,7 @@ public class finSQLGen {
 		
 		return "insert into " + finLogTabName + sqlvalue;
 	}
+	
 	// select * from finLog where id = FinID;
 	public static String logCheck(String FinID) {
 		return "select * from " + finLogTabName + " where " + finIDColName + " = " + FinID + ";";

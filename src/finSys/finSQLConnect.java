@@ -13,9 +13,13 @@ public class finSQLConnect {
 	public static String url = "jdbc:mysql://localhost:3306/sqltestdb"; // database url
 	public static String user = "root"; // MySQL user name
 	public static String password = "123456"; // MySQL userpwd
-	public static Connection con; // declare connect subject
+	public Connection con; // declare connect subject
 	
-	public static void getConnection(String[] args) {
+	
+	
+	
+	
+	public void getConnection(String[] args) {
 		try {
 			// load driver
 			Class.forName(driver);
@@ -42,8 +46,8 @@ public class finSQLConnect {
 	}
 	
 	
-	
-	public static void excuteQuery(String sql) throws SQLException {
+	// use for checking
+	public void executeQuery(String sql) throws SQLException {
 		// create statement class to excute query
 		Statement statement = con.createStatement();
 		// result set save the result
@@ -66,11 +70,149 @@ public class finSQLConnect {
             rs.close();
 	}
 	
+	// use to change password. the return value is 1 if the change is succeed
+	public int changePwd(String FinID, String pwd, String newpwd) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finUpdatepwd(FinID, pwd, newpwd);
+		
+		
+		try {
+			int result = statement.executeUpdate(sql);
+			if (result == 1) {
+				System.out.println("change succeed");
+			}
+			else if (result == 0) {
+				System.out.println("confirm failed");
+			}
+			else {
+				System.out.println("error: multiple change pwd subject");
+			}
+			return result;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return 0;
+		
+		
+	}
+	
+	// return true if have a return; return false otherwise
+	public boolean checkPwd(String FinID, String pwd) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finCheckpwd(FinID, pwd);
+		try {
+			return statement.execute(sql);	
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return false;
+			
+	}
+	
+	//return row number that affected, normal case return 1
+	public int changeBal(String FinID, double amount) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finUpateBalance(FinID, amount);
+		
+		try {
+			int result = statement.executeUpdate(sql);	
+			if(result == 1) {
+				System.out.println("change balance succeed");
+			}
+			else {
+				System.out.println("error int change balance");
+			}
+		return result;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return 0;
+		
+	}
+	
+	// return true if operation success, false otherwise
+	public boolean createNewFinAccount(String FinID, String SecID, String pwd, String balance) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finNewAccount(FinID, SecID, pwd, balance);
+		
+		try {
+			return statement.execute(sql);	
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return false;
+	}
+	
+	// return affected rows, normal case 1
+	public int setState(String FinID, boolean statevalue) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finSetState(FinID, statevalue);
+
+		try {
+			int result = statement.executeUpdate(sql);
+			if (result != 1)
+				System.out.println("error in set state");
+			return result;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return 0;
+	}
+	
+	
+	public int[] calcInterest() throws SQLException{
+		int numOfSqlLine = 3;
+		
+		Statement statement = con.createStatement();
+		String sql[] = finSQLGen.finCalInterest();
+		
+		for(int i=0; i<numOfSqlLine; i++) {
+			statement.addBatch(sql[i]);
+		}
+
+		try {
+			return statement.executeBatch();
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+	
+		return null;
+	}
 	
 	
 	
 	
-	public static void closeConnection() throws SQLException {
+	public void closeConnection() throws SQLException {
 		con.close();
 		return;
 	}
