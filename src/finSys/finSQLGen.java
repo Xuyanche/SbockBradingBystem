@@ -6,19 +6,20 @@ public class finSQLGen {
 	// values of fintable
 	static double interestRate;
 	static String finTabName = "financeTable";
-	static String IDColName = "FinID";
-	static String pwdColName = "password";
-	static String balColName = "balance";
-	static String interestColName = "interest";
-	static String stateColName = "state";
+	static String IDColName = "FinID"; // string
+	static String secIDColName = "securityID"; // string
+	static String pwdColName = "password"; // string
+	static String balColName = "balance"; // double
+	static String interestColName = "interest"; // double
+	static String stateColName = "state"; // boolean
 	
 	// values of finlog
 	static String finLogTabName = "financeLog";
-	static String actIDColName = "actionID";
-	static String finIDColName = "financeID";
-	static String timeColName = "actionTime";
-	static String amountColName = "changeAmount";
-	static String commentColName = "comment";
+	static String actIDColName = "actionID"; // long
+	static String logFinIDColName = "financeID";
+	static String timeColName = "actionTime"; // timedate
+	static String amountColName = "changeAmount"; // double, var
+	static String logComColName = "comment";
 	
 	
 	
@@ -75,7 +76,7 @@ public class finSQLGen {
 	// update fintable set state = false/true where id = FinID;
 	public static String finSetState(String FinID, boolean statevalue) {
 		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
-		return "udpate " + finTabName + " set "+ stateColName + " = " + ((statevalue) ? "true" : "false") + sqlwhere;
+		return "udpate " + finTabName + " set "+ stateColName + " = " + statevalue + sqlwhere;
 	}
 	
 	// use to calculate interest, use multiquery to execute this sql
@@ -111,8 +112,8 @@ public class finSQLGen {
 	}
 	
 	// select * from finLog where id = FinID;
-	public static String logCheck(String FinID) {
-		return "select * from " + finLogTabName + " where " + finIDColName + " = " + FinID + ";";
+	public static String logSearch(String FinID) {
+		return "select * from " + finLogTabName + " where " + logFinIDColName + " = " + FinID + ";";
 	}
 	
 	

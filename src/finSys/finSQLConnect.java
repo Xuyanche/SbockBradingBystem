@@ -1,6 +1,7 @@
 package finSys;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +12,30 @@ import java.sql.Statement;
 public class finSQLConnect {
 	public static String driver = "com.mysql.jdbc.Driver"; // driver name
 	public static String url = "jdbc:mysql://localhost:3306/sqltestdb"; // database url
-	public static String user = "root"; // MySQL user name
-	public static String password = "123456"; // MySQL userpwd
+	public String user; // MySQL user name
+	public String password; // MySQL userpwd
 	public Connection con; // declare connect subject
 	
 	
+	//---------- constructor --------------------
+	finSQLConnect(){
+		user = "root";
+		password = "123456";
+	}
+	
+	finSQLConnect(String userValue, String pwd){
+		user = userValue;
+		password = pwd;
+	}
+	
+	//---------- set function -----------------------
+	public void setPassword(String pwd) {
+		password = pwd;
+	}
+	
+	public void setUserName(String userNameValue) {
+		user = userNameValue;
+	}
 	
 	
 	
@@ -68,6 +88,39 @@ public class finSQLConnect {
 		}
 		*/
             rs.close();
+	}
+	
+
+	//------------------- fin table ------------------------------
+	
+	// print finID, secID, balance, interest, state
+	public void finSearch(String FinID) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.finSearch(FinID);
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			
+			System.out.println("finID\t secID\t balance\t interest\t state");
+			while(rs.next()){
+				//(finID, SecID, pwd, balance, 0, true);
+				String ID = rs.getString(finSQLGen.IDColName);
+				String secID = rs.getString(finSQLGen.secIDColName); 
+				double balance = rs.getDouble(finSQLGen.balColName);
+				double interest = rs.getDouble(finSQLGen.interestColName);
+				boolean state = rs.getBoolean(finSQLGen.stateColName);
+				
+				System.out.println( ID + "\t" + secID + "\t" + Double.toString(balance) + "\t" 
+						+ Double.toString(interest) + "\t" + state );
+			}
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		
 	}
 	
 	// use to change password. the return value is 1 if the change is succeed
@@ -184,18 +237,17 @@ public class finSQLConnect {
 		return 0;
 	}
 	
-	
+	// to calculate interest, the return is a array of statement return
 	public int[] calcInterest() throws SQLException{
 		int numOfSqlLine = 3;
 		
 		Statement statement = con.createStatement();
 		String sql[] = finSQLGen.finCalInterest();
 		
-		for(int i=0; i<numOfSqlLine; i++) {
-			statement.addBatch(sql[i]);
-		}
-
 		try {
+			for(int i=0; i<numOfSqlLine; i++) {
+				statement.addBatch(sql[i]);
+			}
 			return statement.executeBatch();
 		} 
 		catch (SQLException e) {
@@ -207,6 +259,60 @@ public class finSQLConnect {
 		}
 	
 		return null;
+	}
+	
+	
+	
+	//------------------- fin Log ------------------------
+	
+	
+	
+	// print actID, finID, amount, time, comment
+	public void logSearch(String FinID) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.logSearch(FinID);
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			
+			System.out.println("actID\t finID\t amount\t time\t comment");
+			while(rs.next()){
+				//(finID, SecID, pwd, balance, 0, true);
+				String actID = rs.getString(finSQLGen.actIDColName);
+				String finID = rs.getString(finSQLGen.logFinIDColName); 
+				double amount = rs.getDouble(finSQLGen.amountColName);
+				Date time = rs.getDate(finSQLGen.timeColName);
+				String comment = rs.getString(finSQLGen.logComColName);
+				
+				System.out.println( actID + "\t" + finID + "\t" + Double.toString(amount) + "\t" 
+						+ time + "\t" + comment );
+			}
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		
+	}
+	
+	// to insert a new log
+	public boolean logInsert(String FinID, double amount, String comment) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.logNewEntry(FinID, amount, comment);
+		
+		try {
+			return statement.execute(sql);	
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return false;
 	}
 	
 	
