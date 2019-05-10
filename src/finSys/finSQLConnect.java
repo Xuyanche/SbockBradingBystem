@@ -17,7 +17,7 @@ public class finSQLConnect {
 	public Connection con; // declare connect subject
 	
 	
-	//---------- constructor --------------------
+	//-------------------- constructor --------------------
 	finSQLConnect(){
 		user = "root";
 		password = "123456";
@@ -28,7 +28,7 @@ public class finSQLConnect {
 		password = pwd;
 	}
 	
-	//---------- set function -----------------------
+	//--------------------- set function -----------------------
 	public void setPassword(String pwd) {
 		password = pwd;
 	}
@@ -38,6 +38,8 @@ public class finSQLConnect {
 	}
 	
 	
+	
+	//------------------- database connection ------------------------
 	
 	public void getConnection(String[] args) {
 		try {
@@ -65,6 +67,14 @@ public class finSQLConnect {
 		return;
 	}
 	
+	public void closeConnection() throws SQLException {
+		con.close();
+		return;
+	}
+	
+	
+	
+	
 	
 	// use for checking
 	public void executeQuery(String sql) throws SQLException {
@@ -91,7 +101,7 @@ public class finSQLConnect {
 	}
 	
 
-	//------------------- fin table ------------------------------
+	//------------------- fin table operation ------------------------------
 	
 	// print finID, secID, balance, interest, state
 	public void finSearch(String FinID) throws SQLException {
@@ -263,8 +273,7 @@ public class finSQLConnect {
 	
 	
 	
-	//------------------- fin Log ------------------------
-	
+	//------------------- fin Log operation ------------------------
 	
 	
 	// print actID, finID, amount, time, comment
@@ -316,12 +325,6 @@ public class finSQLConnect {
 	}
 	
 	
-	
-	
-	public void closeConnection() throws SQLException {
-		con.close();
-		return;
-	}
 	
 	
 	
