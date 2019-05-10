@@ -1,5 +1,7 @@
 package finSys;
 import java.util.Scanner;
+import java.lang.StringBuilder;
+
 
 public class finSQLGen {
 	
@@ -84,14 +86,22 @@ public class finSQLGen {
 		
 		String q[] = new String[3];
 		// update fintable set interest = interest + balance * rate;
-		String sqlset1 =  " set " + interestColName + " = " + interestColName + " + " + balColName + " * " + Double.toString(interestRate) + " ;";
-		q[0] = "update " + finTabName + sqlset1;
+		StringBuilder sqlset1 =  new StringBuilder(" set ").append(interestColName).append("=").append(interestColName).append('+')
+				.append(balColName).append('*').append(Double.toString(interestRate)).append(';');
+		q[0] = sqlset1.insert(0,"update"+finTabName).toString();
+				//"update " + finTabName + sqlset1;
 		// update fintable set balance = balance + floor(interest);
-		String sqlset2 =  " set " + balColName + " = " + balColName + " + floor(" + interestColName + " ); " ;
-		q[1] = "update " + finTabName + sqlset2;
+		StringBuilder sqlset2 =new StringBuilder("set").append(balColName).append('=').append(balColName)
+				.append(" + floor(").append(interestColName).append(");");
+		 //set+balColName + " = " + balColName + " + floor(" + interestColName + " ); " ;
+		q[1] = sqlset2.insert(0,"update"+finTabName).toString();
+				//"update " + finTabName + sqlset2;
 		// update fintable set interest = interest - floor(interest);
-		String sqlset3 =  " set " + interestColName + " = " + interestColName + " - floor(" + interestColName + " ); " ;
-		q[2] = "update " + finTabName + sqlset3;
+		StringBuilder sqlset3 = new StringBuilder("set").append(interestColName).append('=').append(interestColName).append(" - floor(")
+				.append(interestColName).append(");");
+				// " set " + interestColName + " = " + interestColName + " - floor(" + interestColName + " ); " ;
+		q[2] = sqlset3.insert(0, "update"+finTabName).toString();
+				//"update " + finTabName + sqlset3;
 		
 		return q;
 	}
