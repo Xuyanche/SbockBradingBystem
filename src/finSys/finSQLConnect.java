@@ -104,9 +104,11 @@ public class finSQLConnect {
 	//------------------- fin table operation ------------------------------
 	
 	// print finID, secID, balance, interest, state
-	public void finSearch(String FinID) throws SQLException {
+	// return the number of rows found
+	public int finSearch(String FinID) throws SQLException {
 		Statement statement = con.createStatement();
 		String sql = finSQLGen.finSearch(FinID);
+		int flag = 0;
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -121,7 +123,10 @@ public class finSQLConnect {
 				
 				System.out.println( ID + "\t" + secID + "\t" + Double.toString(balance) + "\t" 
 						+ Double.toString(interest) + "\t" + state );
+				flag++;
 			}
+			return flag;
+			
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -130,6 +135,7 @@ public class finSQLConnect {
 		finally {
 			statement.close();
 		}
+		return flag;
 		
 	}
 	
@@ -182,20 +188,20 @@ public class finSQLConnect {
 			
 	}
 	
-	//return row number that affected, normal case return 1
-	public int changeBal(String FinID, double amount) throws SQLException {
+	// do change balance and record in the log, can write comment in the same time if needed
+	public int[] changeBal(String FinID, double amount, String comment) throws SQLException {
+		int numOfSqlLine = 2;
 		Statement statement = con.createStatement();
-		String sql = finSQLGen.finUpateBalance(FinID, amount);
+		String sql[] = new String[numOfSqlLine];
+		sql[0] = finSQLGen.finUpateBalance(FinID, amount);
+		sql[1] = finSQLGen.logNewEntry(FinID, amount, comment);
+		
 		
 		try {
-			int result = statement.executeUpdate(sql);	
-			if(result == 1) {
-				System.out.println("change balance succeed");
+			for(int i=0; i<numOfSqlLine; i++) {
+				statement.addBatch(sql[i]);
 			}
-			else {
-				System.out.println("error int change balance");
-			}
-		return result;
+			return statement.executeBatch();
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -204,7 +210,7 @@ public class finSQLConnect {
 		finally {
 			statement.close();
 		}
-		return 0;
+		return null;
 		
 	}
 	
@@ -323,6 +329,12 @@ public class finSQLConnect {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
