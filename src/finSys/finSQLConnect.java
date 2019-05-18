@@ -342,12 +342,47 @@ public class finSQLConnect {
 		return false;
 	}
 	
+	// -----------------------interest rate---------------------------
+	
+	public int changeInterestRate(double newrate) throws SQLException {
+		Statement statement = con.createStatement();
+		String sql = finSQLGen.updateInterestRate(newrate);
+		try {
+			int result = statement.executeUpdate(sql);
+			return result;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return 0;
+	}
 	
 	
-	
-	
-	
-	
+	public double getInterestRate() throws SQLException {
+		Statement statement = con.createStatement();
+		double rate = 0;
+		String sql = finSQLGen.getInterestRate();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				rate = rs.getDouble(0);
+			}
+			return rate;
+			
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			statement.close();
+		}
+		return 0;
+	}
 	
 	
 	

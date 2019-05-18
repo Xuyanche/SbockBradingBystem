@@ -146,6 +146,9 @@ public class finSQLGen {
 		return "select * from " +  rateTabName + ";";
 	}
 	
+	public static String updateInterestRate(double rate) {
+		return "update " + rateTabName + " set " + rateColName + " = "+ Double.toString(rate) + ";";
+	}
 	
 	
 }
