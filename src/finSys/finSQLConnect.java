@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class finSQLConnect {	
 	
 	public static String driver = "com.mysql.jdbc.Driver"; // driver name
-	public static String url = "jdbc:mysql://localhost:3306/sqltestdb"; // database url
+	public static String url = "jdbc:mysql://localhost:3306/stockdb"; // database url
 	public String user; // MySQL user name
 	public String password; // MySQL userpwd
 	public Connection con; // declare connect subject
@@ -20,7 +20,7 @@ public class finSQLConnect {
 	
 	//-------------------- constructor --------------------
 	finSQLConnect(){
-		user = "root";
+		user = "stockadmin";
 		password = "123456";
 	}
 	
