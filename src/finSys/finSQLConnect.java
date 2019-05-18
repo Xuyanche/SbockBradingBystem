@@ -9,7 +9,8 @@ import java.sql.Statement;
 
 
 
-public class finSQLConnect {
+public class finSQLConnect {	
+	
 	public static String driver = "com.mysql.jdbc.Driver"; // driver name
 	public static String url = "jdbc:mysql://localhost:3306/sqltestdb"; // database url
 	public String user; // MySQL user name
@@ -37,6 +38,11 @@ public class finSQLConnect {
 		user = userNameValue;
 	}
 	
+	public void setUser(String userValue, String pwd) {
+		user = userValue;
+		password = pwd;
+	}
+	
 	
 	
 	//------------------- database connection ------------------------
@@ -62,7 +68,7 @@ public class finSQLConnect {
 			// TODO: handle exception
 			e.printStackTrace();
 		}finally{
-			System.out.println("Êý¾Ý¿âÊý¾Ý³É¹¦»ñÈ¡£¡£¡");
+			System.out.println("ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ý³É¹ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½");
 		}
 		return;
 	}
@@ -83,17 +89,17 @@ public class finSQLConnect {
 		// result set save the result
 		ResultSet rs = statement.executeQuery(sql);
 		System.out.println("-----------------");
-		System.out.println("Ö´ÐÐ½á¹ûÈçÏÂËùÊ¾:");
+		System.out.println("Ö´ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾:");
 		System.out.println("-----------------");
         /*     
 		String job = null;
 		String id = null;
 		while(rs.next()){
-			//»ñÈ¡stunameÕâÁÐÊý¾Ý
+			//ï¿½ï¿½È¡stunameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			job = rs.getString("job");
-			//»ñÈ¡stuidÕâÁÐÊý¾Ý
+			//ï¿½ï¿½È¡stuidï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			id = rs.getString("ename");
-			//Êä³ö½á¹û
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			System.out.println(id + "\t" + job);
 		}
 		*/
@@ -215,12 +221,19 @@ public class finSQLConnect {
 	}
 	
 	// return true if operation success, false otherwise
-	public boolean createNewFinAccount(String FinID, String SecID, String pwd, String balance) throws SQLException {
+	public String createNewFinAccount(String SecID, String pwd, String balance) throws SQLException {
+		long FinID = 0;
 		Statement statement = con.createStatement();
-		String sql = finSQLGen.finNewAccount(FinID, SecID, pwd, balance);
-		
+		String s = finSQLGen.finGetGreatestFinID();
 		try {
-			return statement.execute(sql);	
+				
+			ResultSet rs = statement.executeQuery(s);
+			while(rs.next()){
+				FinID = rs.getLong(0);
+			}
+			FinID++;
+			String sql = finSQLGen.finNewAccount(Long.toString(FinID), SecID, pwd, balance);
+			return Long.toString(FinID);	
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -229,7 +242,7 @@ public class finSQLConnect {
 		finally {
 			statement.close();
 		}
-		return false;
+		return "error";
 	}
 	
 	// return affected rows, normal case 1

@@ -45,6 +45,14 @@ public class finSQLGen {
 		
 		return sqlselect + sqlfrom + sqlwhere;
 	}
+	
+	// select * from fintable where id = FinID;
+	public static String finGetGreatestFinID() {
+		String sqlselect = " select " + "max (" + IDColName + ")";
+		String sqlfrom = " from " + finTabName;
+		
+		return sqlselect + sqlfrom;
+	}
 
 	// update fintable set pwd = newpwd where id = finID and password = pwd;
 	public static String finUpdatepwd(String FinID, String pwd, String newpwd) {
@@ -77,8 +85,9 @@ public class finSQLGen {
 	
 	// update fintable set state = false/true where id = FinID;
 	public static String finSetState(String FinID, boolean statevalue) {
-		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
-		return "udpate " + finTabName + " set "+ stateColName + " = " + statevalue + sqlwhere;
+		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append("=").append(FinID).append(";");
+		return new StringBuilder("udpate ").append(finTabName).append(" set ").append(stateColName).append(" = ")
+				.append(statevalue).append(sqlwhere).toString();
 	}
 	
 	// use to calculate interest, use multiquery to execute this sql
@@ -114,11 +123,14 @@ public class finSQLGen {
 	// insert into finlog values (actionID, FinID, actiontime, amount, comment);
 	public static String logNewEntry(String FinID, double amount, String comment){
 		// select (max(actionID)+1) from finLog;
-		String getActionID = "select (max(" + actIDColName + ")+1) from " + finLogTabName + ");";
+		//String getActionID = "select (max(" + actIDColName + ")+1) from " + finLogTabName + ");";
+		StringBuilder getActionID=new StringBuilder("select (max(").append(actIDColName).append(")+1) from ").append(finLogTabName).append(");");
 		//values (getactionID, FinID, GETDATE(), amount, comment);
-		String sqlvalue = " values ( " + getActionID + " , " + FinID + " , GETDATE(), " + Double.toString(amount) + " , " + comment+ ");";
+		StringBuilder sqlvalue = new StringBuilder(" values ( ") .append(getActionID.toString()).append(" , ")
+				.append(FinID).append( " , GETDATE(), ").append(Double.toString(amount)).append( " , " ).append(comment).append(");");
 		
-		return "insert into " + finLogTabName + sqlvalue;
+		return sqlvalue.insert(0,finLogTabName).insert(0, "insert into ").toString();
+				//"insert into " + finLogTabName + sqlvalue;
 	}
 	
 	// select * from finLog where id = FinID;
