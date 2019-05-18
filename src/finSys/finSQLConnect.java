@@ -68,7 +68,7 @@ public class finSQLConnect {
 			// TODO: handle exception
 			e.printStackTrace();
 		}finally{
-			System.out.println("���ݿ����ݳɹ���ȡ����");
+			System.out.println("connected");
 		}
 		return;
 	}
@@ -89,19 +89,10 @@ public class finSQLConnect {
 		// result set save the result
 		ResultSet rs = statement.executeQuery(sql);
 		System.out.println("-----------------");
-		System.out.println("ִ�н��������ʾ:");
+		System.out.println("checking :");
 		System.out.println("-----------------");
         /*     
-		String job = null;
-		String id = null;
-		while(rs.next()){
-			//��ȡstuname��������
-			job = rs.getString("job");
-			//��ȡstuid��������
-			id = rs.getString("ename");
-			//������
-			System.out.println(id + "\t" + job);
-		}
+		
 		*/
             rs.close();
 	}
@@ -269,11 +260,19 @@ public class finSQLConnect {
 	// to calculate interest, the return is a array of statement return
 	public int[] calcInterest() throws SQLException{
 		int numOfSqlLine = 3;
-		
+		double rate = 0;
+		String s = finSQLGen.getInterestRate();
 		Statement statement = con.createStatement();
-		String sql[] = finSQLGen.finCalInterest();
 		
 		try {
+			
+			ResultSet rs = statement.executeQuery(s);
+			while(rs.next()){
+				rate = rs.getDouble(0);
+			}
+			
+			String sql[] = finSQLGen.finCalInterest(rate);
+			
 			for(int i=0; i<numOfSqlLine; i++) {
 				statement.addBatch(sql[i]);
 			}

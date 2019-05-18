@@ -6,7 +6,6 @@ import java.lang.StringBuilder;
 public class finSQLGen {
 	
 	// values of fintable
-	static double interestRate;
 	static String finTabName = "financeTable";
 	static String IDColName = "FinID"; // string
 	static String secIDColName = "securityID"; // string
@@ -24,6 +23,9 @@ public class finSQLGen {
 	static String logComColName = "comment";
 	
 	
+	// values of interest rate
+	static String rateTabName = "interestRate";
+	static String rateColName = "rate";
 	
 	/*
 	public static void main() {
@@ -91,7 +93,7 @@ public class finSQLGen {
 	}
 	
 	// use to calculate interest, use multiquery to execute this sql
-	public static String[] finCalInterest() {
+	public static String[] finCalInterest(double interestRate) {
 		
 		String q[] = new String[3];
 		// update fintable set interest = interest + balance * rate;
@@ -139,7 +141,10 @@ public class finSQLGen {
 	}
 	
 	
-	
+	//---------------- sql for interest rate ---------------------------
+	public static String getInterestRate(){
+		return "select * from " +  rateTabName + ";";
+	}
 	
 	
 	
