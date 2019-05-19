@@ -8,6 +8,7 @@ public class finSysDB {
 	private finSQLConnect DB;
 	private finSysDB() {
 		DB = new finSQLConnect();
+		System.out.println("connect to DB");
 	}
 	
 	public static finSysDB getInstence() {
