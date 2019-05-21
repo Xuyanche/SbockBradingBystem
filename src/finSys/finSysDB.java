@@ -18,12 +18,12 @@ public class finSysDB {
 		return DB;
 	}
 	
-	private String finID;
-	public String getfinID() {
+	private long finID;
+	public long getfinID() {
 		return finID;
 	}
 	
-	public void setfinID(String newID) {
+	public void setfinID(long newID) {
 		finID=newID;
 	}
 }

@@ -1,7 +1,5 @@
 package finSys;
-import java.util.Scanner;
 import java.lang.StringBuilder;
-
 
 public class finSQLGen {
 	
@@ -39,11 +37,11 @@ public class finSQLGen {
 	
 	//---------------- sql for fintable ---------------------------------------
 	
-	// select * from fintable where id = FinID;
-	public static String finSearch(String FinID) {
+	// select * from fintable where id = ?(FinID);
+	public static String finSearch() {
 		String sqlselect = " select " + "*";
 		String sqlfrom = " from " + finTabName;
-		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
+		String sqlwhere =  " where " + IDColName + " = " + "?" + ";";
 		
 		return sqlselect + sqlfrom + sqlwhere;
 	}
@@ -56,40 +54,39 @@ public class finSQLGen {
 		return sqlselect + sqlfrom;
 	}
 
-	// update fintable set pwd = newpwd where id = finID and password = pwd;
-	public static String finUpdatepwd(String FinID, String pwd, String newpwd) {
-		String sqlwhere =  " where " + IDColName + " = " + FinID + " and " + pwdColName + " = " + pwd + " ;";
-		return "update " + finTabName + " set " + pwdColName + " = " + newpwd + sqlwhere;
+	// update fintable set pwd = ?(newpwd) where id = ?(finID) and password = ?(pwd);
+	public static String finUpdatepwd() {
+		String sqlwhere =  " where " + IDColName + " = ? and " + pwdColName + " = ? ;";
+		return "update " + finTabName + " set " + pwdColName + " = ? " + sqlwhere;
 	}
 	
-	// select pwd from fintable where id = finID and password = pwd;
-	public static String finCheckpwd(String FinID, String pwd) {
+	// select pwd from fintable where id = ?(finID) and password = ?(pwd);
+	public static String finCheckpwd() {
 		String sqlselect = " select " + pwdColName;
 		String sqlfrom = " from " + finTabName;
-		String sqlwhere =  " where " + IDColName + " = " + FinID + " and " + pwdColName + " = " + pwd + " ;";
+		String sqlwhere =  " where " + IDColName + " = ? and " + pwdColName + " = ? ;";
 		
 		return sqlselect + sqlfrom + sqlwhere;
 	}
 	
 	// update fintable set balance = balance + (amount) where id = finID;
-	public static String finUpateBalance(String FinID, double amount) {
-		String sqlwhere =  " where " + IDColName + " = " + FinID + ";";
+	public static String finUpateBalance() {
+		String sqlwhere =  " where " + IDColName + " =  ?;";
 		
-		return "update " + finTabName + " set "+ balColName + " = " + balColName + " + (" + Double.toString(amount) + ") " + sqlwhere;
+		return "update " + finTabName + " set "+ balColName + " = " + balColName + " + ( ? ) " + sqlwhere;
 	}
 	
 	// insert into fintable values (finID, SecID, pwd, balance, 0, true);
-	public static String finNewAccount(String FinID, String SecID, String pwd, String balance) {
-		String sqlValues = " values ( " 
-				+ FinID + " , " + SecID + " , " + pwd + " , " + balance + " ,  0 , true" + " ); ";
+	public static String finNewAccount() {
+		String sqlValues = " values ( ?,?,? ,?, 0 , true ); ";
 		return "insert into "+ finTabName + sqlValues;
 	}
 	
 	// update fintable set state = false/true where id = FinID;
-	public static String finSetState(String FinID, boolean statevalue) {
-		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append("=").append(FinID).append(";");
-		return new StringBuilder("udpate ").append(finTabName).append(" set ").append(stateColName).append(" = ")
-				.append(statevalue).append(sqlwhere).toString();
+	public static String finSetState() {
+		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append("= ?;");
+		return new StringBuilder("udpate ").append(finTabName).append(" set ").append(stateColName).append(" = ? ")
+				.append(sqlwhere).toString();
 	}
 	
 	// use to calculate interest, use multiquery to execute this sql
@@ -122,22 +119,22 @@ public class finSQLGen {
 	
 	//----------------- sql for finlog ------------------------------------------
 	
-	// insert into finlog values (actionID, FinID, actiontime, amount, comment);
-	public static String logNewEntry(String FinID, double amount, String comment){
+	// insert into finlog values (actionID, ?FinID, actiontime, ?amount, ?comment);
+	public static String logNewEntry(){
 		// select (max(actionID)+1) from finLog;
 		//String getActionID = "select (max(" + actIDColName + ")+1) from " + finLogTabName + ");";
 		StringBuilder getActionID=new StringBuilder("select (max(").append(actIDColName).append(")+1) from ").append(finLogTabName).append(");");
-		//values (getactionID, FinID, GETDATE(), amount, comment);
-		StringBuilder sqlvalue = new StringBuilder(" values ( ") .append(getActionID.toString()).append(" , ")
-				.append(FinID).append( " , GETDATE(), ").append(Double.toString(amount)).append( " , " ).append(comment).append(");");
+		//values (getactionID, ?(FinID), GETDATE(), ?(amount), ?(comment));
+		StringBuilder sqlvalue = new StringBuilder(" values ( ") .append(getActionID.toString()).append(" , ? ")
+				.append( " , GETDATE(), ? , ?);");
 		
 		return sqlvalue.insert(0,finLogTabName).insert(0, "insert into ").toString();
 				//"insert into " + finLogTabName + sqlvalue;
 	}
 	
-	// select * from finLog where id = FinID;
-	public static String logSearch(String FinID) {
-		return "select * from " + finLogTabName + " where " + logFinIDColName + " = " + FinID + ";";
+	// select * from finLog where id = ?(FinID);
+	public static String logSearch() {
+		return "select * from " + finLogTabName + " where " + logFinIDColName + " = ? ;";
 	}
 	
 	
@@ -146,8 +143,8 @@ public class finSQLGen {
 		return "select * from " +  rateTabName + ";";
 	}
 	
-	public static String updateInterestRate(double rate) {
-		return "update " + rateTabName + " set " + rateColName + " = "+ Double.toString(rate) + ";";
+	public static String updateInterestRate() {
+		return "update " + rateTabName + " set " + rateColName + " =  ? ;";
 	}
 	
 	

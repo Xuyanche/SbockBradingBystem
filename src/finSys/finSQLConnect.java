@@ -78,10 +78,6 @@ public class finSQLConnect {
 		return;
 	}
 	
-	
-	
-	
-	
 	// use for checking
 	public void executeQuery(String sql) throws SQLException {
 		// create statement class to excute query
@@ -100,14 +96,18 @@ public class finSQLConnect {
 
 	//------------------- fin table operation ------------------------------
 	
-	// print finID, secID, balance, interest, state
-	// return the number of rows found
-	public int finSearch(String FinID) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.finSearch(FinID);
+	/**
+	 *  print finID, secID, balance, interest, state
+	 * @return return the number of rows found
+	 * */
+	public int finSearch(long FinID) throws SQLException {
+		String sql = finSQLGen.finSearch();
+		java.sql.PreparedStatement ps  = con.prepareStatement(sql);
 		int flag = 0;
 		try {
-			ResultSet rs = statement.executeQuery(sql);
+			
+			ps.setLong(1, FinID);
+			ResultSet rs = ps.executeQuery();
 			
 			System.out.println("finID\t secID\t balance\t interest\t state");
 			while(rs.next()){
@@ -130,20 +130,25 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		return flag;
 		
 	}
 	
-	// use to change password. the return value is 1 if the change is succeed
-	public int changePwd(String FinID, String pwd, String newpwd) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.finUpdatepwd(FinID, pwd, newpwd);
-		
+	/** use to change password. 
+	 * @return return 1 if the change is succeed
+	 * */
+	public int changePwd(long FinID, String pwd, String newpwd) throws SQLException {
+		String sql = finSQLGen.finUpdatepwd();
+		java.sql.PreparedStatement ps = con.prepareStatement(sql);
 		
 		try {
-			int result = statement.executeUpdate(sql);
+			ps.setString(1, newpwd);
+			ps.setLong(2, FinID);
+			ps.setString(3, pwd);
+			
+			int result = ps.executeUpdate();
 			if (result == 1) {
 				System.out.println("change succeed");
 			}
@@ -160,71 +165,66 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		return 0;
 		
 		
 	}
 	
-	// return true if have a return; return false otherwise
-	public boolean checkPwd(String FinID, String pwd) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.finCheckpwd(FinID, pwd);
+	/** 
+	 * check if the password and id is correct
+	 * @return return true if have a return; return false otherwise
+	 * */
+	public boolean checkPwd(long FinID, String pwd) throws SQLException {
+		String sql = finSQLGen.finCheckpwd();
+		java.sql.PreparedStatement ps = con.prepareStatement(sql);
+		ResultSet rs = null;
+		int count = 0;
 		try {
-			return statement.execute(sql);	
+			ps.setLong(1, FinID);
+			ps.setString(2, pwd);
+			rs = ps.executeQuery();
+			rs.last();
+			count = rs.getRow();
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
+			rs.close();
 		}
-		return false;
+		return (count>0)? true : false;
 			
 	}
 	
-	// do change balance and record in the log, can write comment in the same time if needed
-	public int[] changeBal(String FinID, double amount, String comment) throws SQLException {
-		int numOfSqlLine = 2;
-		Statement statement = con.createStatement();
-		String sql[] = new String[numOfSqlLine];
-		sql[0] = finSQLGen.finUpateBalance(FinID, amount);
-		sql[1] = finSQLGen.logNewEntry(FinID, amount, comment);
-		
-		
-		try {
-			for(int i=0; i<numOfSqlLine; i++) {
-				statement.addBatch(sql[i]);
-			}
-			return statement.executeBatch();
-		} 
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			statement.close();
-		}
-		return null;
-		
-	}
 	
-	// return true if operation success, false otherwise
-	public String createNewFinAccount(String SecID, String pwd, String balance) throws SQLException {
+	/**
+	 * @return the FinID of the new account in the format of long. if error, return -1
+	 * */
+	public long createNewFinAccount(String SecID, String pwd, double balance) throws SQLException {
 		long FinID = 0;
-		Statement statement = con.createStatement();
+		java.sql.PreparedStatement ps = null;
 		String s = finSQLGen.finGetGreatestFinID();
+		Statement statement = con.createStatement();
+		ResultSet rs = null;
 		try {
-				
-			ResultSet rs = statement.executeQuery(s);
+			rs = statement.executeQuery(s);
 			while(rs.next()){
 				FinID = rs.getLong(0);
 			}
 			FinID++;
-			String sql = finSQLGen.finNewAccount(Long.toString(FinID), SecID, pwd, balance);
-			return Long.toString(FinID);	
+			
+			String sql = finSQLGen.finNewAccount();
+			ps = con.prepareStatement(sql);
+			ps.setLong(1, FinID);
+			ps.setString(2, SecID);
+			ps.setString(3, pwd);
+			ps.setDouble(4, balance);
+			ps.executeUpdate();
+			return (FinID);	
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -232,17 +232,25 @@ public class finSQLConnect {
 		}
 		finally {
 			statement.close();
+			ps.close();
+			rs.close();
 		}
-		return "error";
+		return -1;
 	}
 	
-	// return affected rows, normal case 1
-	public int setState(String FinID, boolean statevalue) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.finSetState(FinID, statevalue);
-
+	/** 
+	 * set the state of an account
+	 * @param statevalue true - available, false - freeze
+	 * @return return affected rows, normal case 1
+	 * */
+	public int setState(long FinID, boolean statevalue) throws SQLException {
+		String sql = finSQLGen.finSetState();
+		java.sql.PreparedStatement ps = null;
 		try {
-			int result = statement.executeUpdate(sql);
+			ps = con.prepareStatement(sql);
+			ps.setLong(1, FinID);
+			ps.setBoolean(2, statevalue);
+			int result = ps.executeUpdate();
 			if (result != 1)
 				System.out.println("error in set state");
 			return result;
@@ -252,12 +260,15 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		return 0;
 	}
 	
-	// to calculate interest, the return is a array of statement return
+	/** 
+	 * to calculate interest, the return is a array of statements return
+	 * this action have no parameter, so no need to use prepared statement
+	 * */
 	public int[] calcInterest() throws SQLException{
 		int numOfSqlLine = 3;
 		double rate = 0;
@@ -289,17 +300,50 @@ public class finSQLConnect {
 		return null;
 	}
 	
-	
-	
-	//------------------- fin Log operation ------------------------
-	
-	
-	// print actID, finID, amount, time, comment
-	public void logSearch(String FinID) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.logSearch(FinID);
+	/** 
+	 * do change balance and record in the log, can write comment in the same time if needed
+	 * @param comment use for record the reason of the change of this log.
+	 *  Normally is the transaction number, or things like "draw from counter"
+	 * */
+	public int[] changeBal(long FinID, double amount, String comment) throws SQLException {
+		int numOfSqlLine = 2;
+		String sql[] = new String[numOfSqlLine];
 		try {
-			ResultSet rs = statement.executeQuery(sql);
+			sql[0] = finSQLGen.finUpateBalance();
+			sql[1] = finSQLGen.logNewEntry();
+			java.sql.PreparedStatement ps = con.prepareStatement(sql[0]);
+			ps.setLong(1, FinID);
+			ps.setDouble(2, amount);
+			ps.executeUpdate();
+			ps.close();
+			ps = con.prepareStatement(sql[1]);
+			ps.setLong(1, FinID);
+			ps.setDouble(2, amount);
+			ps.setString(3, comment);
+			
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+		}
+		return null;
+		
+	}
+
+	//------------------- fin Log operation ------------------------
+
+
+	/** 
+	 * print actID, finID, amount, time, comment
+	 */
+	public void logSearch(long FinID) throws SQLException {
+		java.sql.PreparedStatement ps = con.prepareStatement(finSQLGen.logSearch());
+		
+		try {
+			ps.setLong(1, FinID);
+			ResultSet rs = ps.executeQuery();
 			
 			System.out.println("actID\t finID\t amount\t time\t comment");
 			while(rs.next()){
@@ -319,36 +363,45 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		
 	}
 	
-	// to insert a new log
-	public boolean logInsert(String FinID, double amount, String comment) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.logNewEntry(FinID, amount, comment);
+	/** 
+	 * to insert a new log
+	 * @param comment use for record the reason of the change of this log.
+	 *  Normally is the transaction number, or things like "draw from counter"
+	 *  */
+	public boolean logInsert(long FinID, double amount, String comment) throws SQLException {
+		java.sql.PreparedStatement ps = con.prepareStatement(finSQLGen.logNewEntry());
 		
 		try {
-			return statement.execute(sql);	
+			ps.setLong(1, FinID);
+			ps.setDouble(2, amount);
+			ps.setString(3, comment);
+			return ps.execute();	
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		return false;
 	}
 	
 	// -----------------------interest rate---------------------------
 	
+	/** 
+	 * to change the rate of interest
+	 * */
 	public int changeInterestRate(double newrate) throws SQLException {
-		Statement statement = con.createStatement();
-		String sql = finSQLGen.updateInterestRate(newrate);
+		java.sql.PreparedStatement ps = con.prepareStatement(finSQLGen.updateInterestRate());
 		try {
-			int result = statement.executeUpdate(sql);
+			ps.setDouble(1, newrate);
+			int result = ps.executeUpdate();
 			return result;
 		} 
 		catch (SQLException e) {
@@ -356,12 +409,15 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
+			ps.close();
 		}
 		return 0;
 	}
 	
-	
+	/**
+	 * this function is use to get interest rate
+	 * @return the rate use for calculate interest
+	 * */
 	public double getInterestRate() throws SQLException {
 		Statement statement = con.createStatement();
 		double rate = 0;

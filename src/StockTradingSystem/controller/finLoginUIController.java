@@ -26,7 +26,7 @@ public class finLoginUIController extends AdminUIController {
 
     public void login() throws Exception {
     	String userpwd=UserPwd.getText();
-    	String userid=UserId.getText();
+    	long userid=Long.valueOf(UserId.getText());
     	
     	
     	if(true/*myDB.getDB().checkPwd(userid, userpwd)*/) {

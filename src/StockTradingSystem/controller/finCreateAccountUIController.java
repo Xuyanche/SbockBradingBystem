@@ -30,7 +30,7 @@ public class finCreateAccountUIController extends AdminUIController {
     	
     	
     	System.out.println("creating new account....");
-    	String newFinID = myDB.getDB().createNewFinAccount(stockSysAccount, password, balance);
+    	long newFinID = myDB.getDB().createNewFinAccount(stockSysAccount, password, Double.valueOf(balance));
     	System.out.println("Create new Accout at: " + newFinID + "/n associate stock account : "+ stockSysAccount);    	
     	
         getApp().gotofinworkUI();
