@@ -36,8 +36,8 @@ public class finworkUIController extends AdminUIController {
     public void exitSearchLog( ) { ControllerUtils.btnRelease(SearchLogBtn);    }
     public void releaseSearchLog( ) throws Exception {  
     	ControllerUtils.btnRelease(SearchLogBtn);
-    	//myDB.getDB().logSearch(myDB.getfinID());
-
+    	myDB.getDB().logSearch(myDB.getfinID());
+    	
     }
     
     //================ChangBalance=============
@@ -46,7 +46,7 @@ public class finworkUIController extends AdminUIController {
     public void pressChangeBalance( ) {  ControllerUtils.btnPress(ChangeBalance);  }
     public void releaseChangeBalance( ) throws Exception {
     	ControllerUtils.btnRelease(ChangeBalance);
-    	getApp().gotofinChangeBalanceUI();
+    	getApp().gotofinRepoDrawUI();
     }
 
     

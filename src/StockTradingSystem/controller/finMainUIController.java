@@ -27,7 +27,7 @@ public class finMainUIController extends AdminUIController {
     public void exitNewAccount() { ControllerUtils.btnRelease(NewAccountBtn); }
     public void releaseNewAccount() throws Exception {
         ControllerUtils.btnRelease(NewAccountBtn);
-        getApp().gotofinCreateAccountUI();
+        getApp().gotofinCreateActUI();
         // TODO
     }
     
@@ -48,7 +48,7 @@ public class finMainUIController extends AdminUIController {
         ControllerUtils.btnRelease(InterestBtn);
         System.out.println("Adding Interests, this may take a few minutes....");
         myDB.getDB().calcInterest();
-        System.out.println("Finished adding Interest");
+        System.out.println("Finish Adding Interest");
     }
 
 

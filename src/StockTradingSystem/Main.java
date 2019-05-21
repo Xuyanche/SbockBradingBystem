@@ -72,47 +72,27 @@ public class Main extends Application {
         finworkUI.setApp(this);
         stage.show();
     }
+    
+    public void gotofinRepoDrawUI() throws Exception {
+        stage.close();
+        stage = new Stage();
+        stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
+        finRepoDrawUIController finRepDrawUI = (finRepoDrawUIController)replaceSceneContent("fxml/finRepoDrawUI.fxml");
+        finRepDrawUI.setApp(this);
+        stage.show();
+    }
+    
+    public void gotofinCreateActUI() throws Exception {
+        stage.close();
+        stage = new Stage();
+        stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
+        finCreateActUIController finCreateActUI = (finCreateActUIController)replaceSceneContent("fxml/finCreateActUI.fxml");
+        finCreateActUI.setApp(this);
+        stage.show();
+    }
 
-    public void gotofinChangeBalanceUI() throws Exception {
-        stage.close();
-        stage = new Stage();
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        finChangeBalanceUIController ChangeBalanceUI = (finChangeBalanceUIController)replaceSceneContent("fxml/finChangeBalanceUI.fxml");
-        ChangeBalanceUI.setApp(this);
-        stage.getScene().setOnMouseDragged(event -> {
-            stage.setX(x_stage + event.getScreenX() - x0);
-            stage.setY(y_stage + event.getScreenY() - y0);
-        });
-        stage.getScene().setOnDragEntered(null);
-        stage.getScene().setOnMousePressed(event -> {
-            x0 = event.getScreenX();
-            y0 = event.getScreenY();
-            x_stage = stage.getX();
-            y_stage = stage.getY();
-        });
-        stage.show();
-    }
-    public void gotofinCreateAccountUI() throws Exception {
-        stage.close();
-        stage = new Stage();
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        finCreateAccountUIController CreateAccountUI = (finCreateAccountUIController)replaceSceneContent("fxml/finCreateAccountUI.fxml");
-        CreateAccountUI.setApp(this);
-        stage.getScene().setOnMouseDragged(event -> {
-            stage.setX(x_stage + event.getScreenX() - x0);
-            stage.setY(y_stage + event.getScreenY() - y0);
-        });
-        stage.getScene().setOnDragEntered(null);
-        stage.getScene().setOnMousePressed(event -> {
-            x0 = event.getScreenX();
-            y0 = event.getScreenY();
-            x_stage = stage.getX();
-            y_stage = stage.getY();
-        });
-        stage.show();
-    }
+ 
+
     
     public void gotofinLoginUI() throws Exception {
         stage.close();

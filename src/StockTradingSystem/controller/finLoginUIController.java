@@ -24,7 +24,8 @@ public class finLoginUIController extends AdminUIController {
         getApp().stage.close();
     }
 
-    public void login() throws Exception {
+    @SuppressWarnings("unused")
+	public void login() throws Exception {
     	String userpwd=UserPwd.getText();
     	long userid=Long.valueOf(UserId.getText());
     	
