@@ -202,7 +202,7 @@ public class finSQLConnect {
 	
 	
 	/**
-	 * @return the FinID of the new account in the format of long. if error, return -1
+	 * @return the FinID of the new account in the format of long. if error, return 0
 	 * */
 	public long createNewFinAccount(String SecID, String pwd, double balance) throws SQLException {
 		long FinID = 0;
@@ -235,7 +235,7 @@ public class finSQLConnect {
 			ps.close();
 			rs.close();
 		}
-		return -1;
+		return 0;
 	}
 	
 	/** 
@@ -415,7 +415,8 @@ public class finSQLConnect {
 	}
 	
 	/**
-	 * this function is use to get interest rate
+	 * this function is use to get interest rate. 
+	 * please insert a base log for max() first. this problem should change later
 	 * @return the rate use for calculate interest
 	 * */
 	public double getInterestRate() throws SQLException {
