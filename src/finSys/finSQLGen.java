@@ -82,6 +82,10 @@ public class finSQLGen {
 		return "insert into "+ finTabName + sqlValues;
 	}
 	
+	public static String finDeleteAccount() {
+		return "delete from " + finTabName + " where " + IDColName + " = ? ;";
+	}
+	
 	// update fintable set state = false/true where id = FinID;
 	public static String finSetState() {
 		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append("= ?;");

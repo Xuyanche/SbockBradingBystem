@@ -136,6 +136,65 @@ public class finSQLConnect {
 		
 	}
 	
+	/** 
+	 * check the balance of the account
+	 * @return if checking succeed, return the balance of the account, else reutrn -1
+	 * */
+	public double checkBal(long FinID) throws SQLException {
+		String sql = finSQLGen.finSearch();
+		java.sql.PreparedStatement ps  = con.prepareStatement(sql);
+		try {
+			
+			ps.setLong(1, FinID);
+			ResultSet rs = ps.executeQuery();
+			double balance = -1;
+			while(rs.next()){
+				balance = rs.getDouble(finSQLGen.balColName);
+			}
+			return balance;
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			ps.close();
+		}
+		return -1;
+		
+	}
+	
+	/** 
+	 * check the state of the fin account
+	 * @return if checking succeed, return the state, eles return false
+	 * */
+	public boolean checkState(long FinID) throws SQLException {
+		String sql = finSQLGen.finSearch();
+		java.sql.PreparedStatement ps  = con.prepareStatement(sql);
+		try {
+			
+			ps.setLong(1, FinID);
+			ResultSet rs = ps.executeQuery();
+			boolean state = false;
+			while(rs.next()){
+				state = rs.getBoolean(finSQLGen.stateColName);
+			}
+			return state;
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			ps.close();
+		}
+		return false;
+		
+	}
+	
+	
 	/** use to change password. 
 	 * @return return 1 if the change is succeed
 	 * */
@@ -264,6 +323,35 @@ public class finSQLConnect {
 		}
 		return 0;
 	}
+	
+	
+	/** 
+	 * delete the account
+	 * @return return affected rows, normal case 1
+	 * */
+	public int deleteFinAccount(long FinID) throws SQLException {
+		String sql = finSQLGen.finDeleteAccount();
+		java.sql.PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setLong(1, FinID);
+			int result = ps.executeUpdate();
+			if (result != 1)
+				System.out.println("error in set state");
+			return result;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			ps.close();
+		}
+		return 0;
+	}
+	
+	
+	
 	
 	/** 
 	 * to calculate interest, the return is a array of statements return
