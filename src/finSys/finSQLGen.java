@@ -128,9 +128,9 @@ public class finSQLGen {
 		// select (max(actionID)+1) from finLog;
 		//String getActionID = "select (max(" + actIDColName + ")+1) from " + finLogTabName + ");";
 		StringBuilder getActionID=new StringBuilder("select (max(").append(actIDColName).append(")+1) from ").append(finLogTabName).append(");");
-		//values (getactionID, ?(FinID), GETDATE(), ?(amount), ?(comment));
+		//values (getactionID, ?(FinID), NOW(), ?(amount), ?(comment));
 		StringBuilder sqlvalue = new StringBuilder(" values ( ") .append(getActionID.toString()).append(" , ? ")
-				.append( " , GETDATE(), ? , ?);");
+				.append( " , NOW(), ? , ?);");
 		
 		return sqlvalue.insert(0,finLogTabName).insert(0, "insert into ").toString();
 				//"insert into " + finLogTabName + sqlvalue;
