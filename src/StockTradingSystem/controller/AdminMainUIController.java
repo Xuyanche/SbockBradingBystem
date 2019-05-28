@@ -22,8 +22,9 @@ public class AdminMainUIController extends AdminUIController {
         ControllerUtils.btnRelease(securitiesBusinessBtn);
         // TODO
     }
-    public void releaseFundBusiness() {
+    public void releaseFundBusiness() throws Exception {
         ControllerUtils.btnRelease(fundBusinessBtn);
+        getApp().gotofinMainUI();
         // TODO
     }
     public void releaseInterManage() throws Exception {

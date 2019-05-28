@@ -47,7 +47,7 @@ public class finSQLConnect {
 	
 	//------------------- database connection ------------------------
 	
-	public void getConnection(String[] args) {
+/*	public void getConnection(String[] args) {
 		try {
 			// load driver
 			Class.forName(driver);
@@ -87,13 +87,11 @@ public class finSQLConnect {
 		System.out.println("-----------------");
 		System.out.println("checking :");
 		System.out.println("-----------------");
-        /*     
-		
-		*/
+      
             rs.close();
 	}
 	
-
+*/
 	//------------------- fin table operation ------------------------------
 	
 	/**

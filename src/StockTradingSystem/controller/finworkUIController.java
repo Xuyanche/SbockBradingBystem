@@ -2,7 +2,7 @@ package StockTradingSystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
-import finSys.finSysDB;
+import sts_server.FinsysToServer;
 
 public class finworkUIController extends AdminUIController {
 	  	@FXML
@@ -19,9 +19,6 @@ public class finworkUIController extends AdminUIController {
 
 	    @FXML
 	    private StackPane DeleteAccount;
-
-    
-    private finSysDB myDB=finSysDB.getInstence();
     @FXML
     void gotofinMainUI() throws Exception {
     	getApp().gotofinMainUI();
@@ -36,7 +33,9 @@ public class finworkUIController extends AdminUIController {
     public void exitSearchLog( ) { ControllerUtils.btnRelease(SearchLogBtn);    }
     public void releaseSearchLog( ) throws Exception {  
     	ControllerUtils.btnRelease(SearchLogBtn);
-    	myDB.getDB().logSearch(myDB.getfinID());
+    	
+    	String result=FinsysToServer.SearchLog();
+    	System.out.println(result);
     	
     }
     
@@ -57,9 +56,9 @@ public class finworkUIController extends AdminUIController {
     public void exitChangePwd( ) {ControllerUtils.btnRelease(ChangePwd);    }
     public void moveChangePwd( ) {ControllerUtils.btnMove(ChangePwd);    }
     public void pressChangePwd( ) {ControllerUtils.btnPress(ChangePwd);    }
-    public  void releaseChangePwd( ) {
+    public  void releaseChangePwd( ) throws Exception {
     	ControllerUtils.btnRelease(ChangePwd);
-    	
+    	getApp().gotofinChangePwdUI();
     }
     
     
@@ -69,6 +68,8 @@ public class finworkUIController extends AdminUIController {
     public void pressChangeState( ) {  ControllerUtils.btnPress(ChangeState);   }
     public void releaseChangeState( ) {
     	ControllerUtils.btnRelease(ChangeState);
+    	String result=FinsysToServer.ChangeState();
+    	System.out.println(result);
     }
    
     
@@ -77,8 +78,11 @@ public class finworkUIController extends AdminUIController {
     public void moveDeleteAccount( ) {ControllerUtils.btnMove(DeleteAccount);    }
     public void exitDeleteAccount( ) {ControllerUtils.btnRelease(DeleteAccount);    }
     public void pressDeleteAccount( ) {ControllerUtils.btnPress(DeleteAccount);    }
-    public void releaseDeleteAccount( ) {
+    public void releaseDeleteAccount( ) throws Exception {
     	ControllerUtils.btnRelease(DeleteAccount);
+    	if(FinsysToServer.DeletAccount()) {
+    		getApp().gotofinMainUI();
+    	}    	
     }
 
 

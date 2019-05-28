@@ -25,6 +25,9 @@ public class finSQLGen {
 	static String rateTabName = "interestRate";
 	static String rateColName = "rate";
 	
+	
+	
+	
 	/*
 	public static void main() {
 		Scanner input = new Scanner(System.in);

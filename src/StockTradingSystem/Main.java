@@ -90,7 +90,14 @@ public class Main extends Application {
         finCreateActUI.setApp(this);
         stage.show();
     }
-
+    public void gotofinChangePwdUI() throws Exception {
+        stage.close();
+        stage = new Stage();
+        stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
+        finChangePwdUIController finCreateActUI = (finChangePwdUIController)replaceSceneContent("fxml/finChangePwdUIUI.fxml");
+        finCreateActUI.setApp(this);
+        stage.show();
+    }
  
 
     

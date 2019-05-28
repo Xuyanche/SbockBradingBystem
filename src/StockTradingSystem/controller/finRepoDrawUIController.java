@@ -4,7 +4,7 @@ package StockTradingSystem.controller;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-import finSys.finSysDB;
+import sts_server.FinsysToServer;
 
 
 public class finRepoDrawUIController extends AdminUIController {
@@ -14,8 +14,6 @@ public class finRepoDrawUIController extends AdminUIController {
     private Text welcome;
     private JFXTextField MoneyFeild;
     
-    private finSysDB myDB=finSysDB.getInstence();
-
     @FXML
     public void gotoFinWork() throws Exception {
     	getApp().gotofinworkUI();
@@ -30,7 +28,7 @@ public class finRepoDrawUIController extends AdminUIController {
 	public void Confirm() throws Exception {
 		
     	String Amount=MoneyFeild.getText();
-    	myDB.getDB().changeBal(myDB.getfinID(), Double.valueOf(Amount), "Changed by FinSys");
+    	FinsysToServer.Reposit_Withdraw(Double.valueOf(Amount));
 		System.out.println("Change Money Successfully!");
     	getApp().gotofinworkUI();
     }

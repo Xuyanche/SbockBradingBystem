@@ -3,10 +3,8 @@ package StockTradingSystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
-
 import java.sql.SQLException;
-
-import finSys.finSysDB;
+import sts_server.FinsysToServer;
 
 public class finMainUIController extends AdminUIController {
     @FXML
@@ -17,8 +15,6 @@ public class finMainUIController extends AdminUIController {
 
     @FXML
     private StackPane InterestBtn;
-    
-    private finSysDB myDB=finSysDB.getInstence();
     
 
     /* 按钮特效 */
@@ -47,7 +43,7 @@ public class finMainUIController extends AdminUIController {
     public void releaseInterest() throws SQLException {
         ControllerUtils.btnRelease(InterestBtn);
         System.out.println("Adding Interests, this may take a few minutes....");
-        myDB.getDB().calcInterest();
+        FinsysToServer.calcInterests();
         System.out.println("Finish Adding Interest");
     }
 

@@ -2,7 +2,7 @@ package StockTradingSystem.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import finSys.finSysDB;
+import sts_server.FinsysToServer;
 
 
 public class finCreateActUIController extends AdminUIController{
@@ -12,7 +12,7 @@ public class finCreateActUIController extends AdminUIController{
 	private JFXTextField InitialMoney;
 	private JFXTextField Password;
 
-	private finSysDB myDB=finSysDB.getInstence();
+	
     @FXML
     public void gotofinMainUI() throws Exception {
     	getApp().gotofinMainUI();
@@ -24,7 +24,16 @@ public class finCreateActUIController extends AdminUIController{
     	String money=InitialMoney.getText();
     	String password=Password.getText();
     	
-    	myDB.getDB().createNewFinAccount(stockid, password, Double.valueOf(money));
+    	System.out.println("creating new account....");
+    	long newFinID =FinsysToServer.CreateAccount(stockid, password, Double.valueOf(money));
+    	
+    	if(newFinID<0) {
+    		System.out.println("Error");
+    	}
+    	else {
+    		System.out.println("Create new Accout at: " + newFinID + "/n associate stock account : "+ stockid);    	
+            getApp().gotofinworkUI();
+    	}
     	getApp().gotofinMainUI();
     	
     }

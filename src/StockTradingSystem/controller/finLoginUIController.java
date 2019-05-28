@@ -1,7 +1,7 @@
 package StockTradingSystem.controller;
 
 
-import finSys.finSysDB;
+import sts_server.FinsysToServer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -18,7 +18,6 @@ public class finLoginUIController extends AdminUIController {
     @FXML
     private JFXTextField UserId;
     
-	private finSysDB myDB=finSysDB.getInstence();
   
 	public void close() {
         getApp().stage.close();
@@ -30,8 +29,8 @@ public class finLoginUIController extends AdminUIController {
     	long userid=Long.valueOf(UserId.getText());
     	
     	
-    	if(true/*myDB.getDB().checkPwd(userid, userpwd)*/) {
-    		myDB.setfinID(userid);
+    	if(FinsysToServer.FinsysLogin(userid, userpwd)) {
+    		
             getApp().gotofinworkUI();
     	}
     	else
