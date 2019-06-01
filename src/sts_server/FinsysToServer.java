@@ -115,7 +115,7 @@ public class FinsysToServer {
 			return false;
 		}
 		
-		CustomResp cr = new HttpCommon().doHttp("/fund/update/password/"+customer.getID()+"/"+newpwd, "POST", null);
+		CustomResp cr = new HttpCommon().doHttp("/fund/update/password/"+customer.getFundId()+"/"+newpwd, "POST", null);
 		String res=cr.getResultJSON();
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
 	    System.out.println(res);
