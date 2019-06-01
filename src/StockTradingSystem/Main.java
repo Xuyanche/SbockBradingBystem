@@ -94,7 +94,7 @@ public class Main extends Application {
         stage.close();
         stage = new Stage();
         stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
-        finChangePwdUIController finCreateActUI = (finChangePwdUIController)replaceSceneContent("fxml/finChangePwdUIUI.fxml");
+        finChangePwdUIController finCreateActUI = (finChangePwdUIController)replaceSceneContent("fxml/finChangePwdUI.fxml");
         finCreateActUI.setApp(this);
         stage.show();
     }
@@ -102,24 +102,12 @@ public class Main extends Application {
 
     
     public void gotofinLoginUI() throws Exception {
-        stage.close();
-        stage = new Stage();
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        finLoginUIController CreateAccountUI = (finLoginUIController)replaceSceneContent("fxml/finLoginUI.fxml");
-        CreateAccountUI.setApp(this);
-        stage.getScene().setOnMouseDragged(event -> {
-            stage.setX(x_stage + event.getScreenX() - x0);
-            stage.setY(y_stage + event.getScreenY() - y0);
-        });
-        stage.getScene().setOnDragEntered(null);
-        stage.getScene().setOnMousePressed(event -> {
-            x0 = event.getScreenX();
-            y0 = event.getScreenY();
-            x_stage = stage.getX();
-            y_stage = stage.getY();
-        });
-        stage.show();
+    	 stage.close();
+         stage = new Stage();
+         stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
+         finLoginUIController finCreateActUI = (finLoginUIController)replaceSceneContent("fxml/finLoginUI.fxml");
+         finCreateActUI.setApp(this);
+         stage.show();
     }
     
     
