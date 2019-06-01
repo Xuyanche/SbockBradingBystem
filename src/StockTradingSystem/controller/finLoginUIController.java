@@ -1,40 +1,46 @@
 package StockTradingSystem.controller;
 
 
-import sts_server.FinsysToServer;
+import java.io.IOException;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import sts_server.FinsysToServer;
 
-public class finLoginUIController extends AdminUIController {
-	
-    @FXML
-    private JFXPasswordField UserPwd;
 
-    @FXML
-    private JFXButton loginBtn;
+public class finLoginUIController extends AdminUIController{
+
 
     @FXML
-    private JFXTextField UserId;
-    
-  
-	public void close() {
-        getApp().stage.close();
-    }
+    private JFXTextField AccountFeild;
 
-    @SuppressWarnings("unused")
-	public void login() throws Exception {
-    	String userpwd=UserPwd.getText();
-    	long userid=Long.valueOf(UserId.getText());
+    @FXML
+    private JFXButton ConfirmBtn;
+
+    @FXML
+    private JFXPasswordField finsysPwdFeild;
+
+    @FXML
+    void Confirm() throws Exception, IOException {
+    	String finAccount=AccountFeild.getText();
+    	String password=finsysPwdFeild.getText();
     	
-    	
-    	if(FinsysToServer.FinsysLogin(userid, userpwd)) {
-    		
-            getApp().gotofinworkUI();
-    	}
+    	if(FinsysToServer.FinsysLogin(Long.valueOf(finAccount), password))
+    		getApp().gotofinworkUI();
     	else
-    		System.out.println("Ivalid UserID or Password!");
-    	
+    		System.out.println("无法登录");
     }
+    
+ 
+
+    @FXML
+    void gotofinMainUI() throws Exception {
+    	getApp().gotofinMainUI();
+    }
+
+
+
 }
+
