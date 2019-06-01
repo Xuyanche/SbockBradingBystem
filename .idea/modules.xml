@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SbockBradingBystem.iml" filepath="$PROJECT_DIR$/SbockBradingBystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47.iml" filepath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47.iml" />
+    </modules>
+  </component>
+</project>
