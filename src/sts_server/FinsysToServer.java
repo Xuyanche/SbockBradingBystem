@@ -171,6 +171,23 @@ public class FinsysToServer {
 	}
 	
 	
+	public static String CustomerInfo() {
+		if(customer.getFundId()==-1) {
+			return "ERROR";
+		}
+		CustomResp cr = new HttpCommon().doHttp("/fund/"+customer.getFundId(), "GET", null);
+		String res=cr.getResultJSON();
+		if(res.indexOf("true")>=0) {
+			return cr.getObjectJSON();
+		}
+		else {
+			return "CANNOT GET CUSTOMER INFO";
+		}
+		
+		
+	}
+	
+	
 	
 	
 }
