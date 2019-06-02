@@ -46,6 +46,13 @@ public class finMainUIController extends AdminUIController {
         //FinsysToServer.calcInterests();
         System.out.println("Finish Adding Interest");
     }
+    
+    @FXML
+    void exitFinsys() throws Exception {
+    	getApp().gotoAdminMainUI();
+    }
+
+
 
 
 }
