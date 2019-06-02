@@ -20,21 +20,25 @@ public class finCreateActUIController extends AdminUIController{
 
     @FXML
     public void confirm() throws Exception {
+    	
     	String stockid=StockID.getText();
-    	String money=InitialMoney.getText();
-    	String password=Password.getText();
+		String money= InitialMoney.getText();
+		String password=Password.getText();
     	
     	System.out.println("creating new account....");
-    	long newFinID =FinsysToServer.CreateAccount(stockid, password, Double.valueOf(money));
-    	
+    	//long newFinID =FinsysToServer.CreateAccount(stockid, password, Double.valueOf(money));
+    	int newFinID=10;
+ 
     	if(newFinID<0) {
     		System.out.println("Error");
+    		getApp().gotofinMainUI();
     	}
     	else {
-    		System.out.println("Create new Accout at: " + newFinID + "/n associate stock account : "+ stockid);    	
+    		//System.out.println("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid);  
+    		//System.out.println(money+"  "+password);
             getApp().gotofinworkUI();
     	}
-    	getApp().gotofinMainUI();
+    
     	
     }
    

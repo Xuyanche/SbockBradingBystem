@@ -3,6 +3,7 @@ package StockTradingSystem.controller;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import sts_server.FinsysToServer;
+import java.util.*;
 
 public class finworkUIController extends AdminUIController {
 	  	@FXML
@@ -33,8 +34,9 @@ public class finworkUIController extends AdminUIController {
     public void exitSearchLog( ) { ControllerUtils.btnRelease(SearchLogBtn);    }
     public void releaseSearchLog( ) throws Exception {  
     	ControllerUtils.btnRelease(SearchLogBtn);
-    	
-    	String result=FinsysToServer.SearchLog();
+    	Date now=new Date();
+    	String result="1, 1, "+ now.toString() +", -20, \"transcation\"";
+    	//String result=FinsysToServer.SearchLog();
     	System.out.println(result);
     	
     }
@@ -60,6 +62,7 @@ public class finworkUIController extends AdminUIController {
     	ControllerUtils.btnRelease(ChangePwd);
     	getApp().gotofinChangePwdUI();
     }
+    
     
     
     //==================changeState===============

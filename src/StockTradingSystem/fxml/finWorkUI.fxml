@@ -119,21 +119,7 @@
                                  <children>
                                     <VBox>
                                        <children>
-                                          <HBox alignment="CENTER" prefHeight="51.0" prefWidth="738.0">
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer:  ">
-                                                   <font>
-                                                      <Font size="25.0" />
-                                                   </font>
-                                                </Text>
-                                                <Text fx:id="CostmerName" strokeType="OUTSIDE" strokeWidth="0.0" text="zhangsan@zju.edu.cn">
-                                                   <font>
-                                                      <Font size="25.0" />
-                                                   </font>
-                                                </Text>
-                                                <Hyperlink text="注销" />
-                                             </children>
-                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="51.0" prefWidth="738.0" />
                                           <StackPane maxHeight="240.0" minHeight="221.0" prefHeight="221.0" prefWidth="738.0">
                                              <children>
                                                 <HBox prefHeight="382.0" prefWidth="738.0">

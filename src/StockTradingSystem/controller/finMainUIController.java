@@ -22,19 +22,22 @@ public class finMainUIController extends AdminUIController {
     public void moveNewAccount() { ControllerUtils.btnMove(NewAccountBtn); }
     public void exitNewAccount() { ControllerUtils.btnRelease(NewAccountBtn); }
     public void releaseNewAccount() throws Exception {
-        ControllerUtils.btnRelease(NewAccountBtn);
-        getApp().gotofinCreateActUI();
+    	getApp().gotofinCreateActUI();
         // TODO
+    	ControllerUtils.btnRelease(NewAccountBtn);
+        
     }
     
     public void pressFinWork() { ControllerUtils.btnPress(FinWorkBtn); }
     public void moveFinWork() { ControllerUtils.btnMove(FinWorkBtn);}
     public void exitFinWork() { ControllerUtils.btnRelease(FinWorkBtn); }
     public void releaseFinWork() throws Exception {
-        ControllerUtils.btnRelease(FinWorkBtn);
-        getApp().gotofinLoginUI();
+    	getApp().gotofinLoginUI();
+    	ControllerUtils.btnRelease(FinWorkBtn);
+        
         // TODO
     }
+    
     
     
     public void pressInterest() { ControllerUtils.btnPress(InterestBtn); }
