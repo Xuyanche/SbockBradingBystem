@@ -9,7 +9,9 @@ public class finCreateActUIController extends AdminUIController{
 
 	@FXML
 	private JFXTextField StockID;
+	@FXML
 	private JFXTextField InitialMoney;
+	@FXML
 	private JFXTextField Password;
 
 	
@@ -26,16 +28,16 @@ public class finCreateActUIController extends AdminUIController{
 		String password=Password.getText();
     	
     	System.out.println("creating new account....");
-    	//long newFinID =FinsysToServer.CreateAccount(stockid, password, Double.valueOf(money));
-    	int newFinID=10;
+    	long newFinID =FinsysToServer.CreateAccount(stockid, password, Double.valueOf(money));
+    	
  
     	if(newFinID<0) {
     		System.out.println("Error");
     		getApp().gotofinMainUI();
     	}
     	else {
-    		//System.out.println("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid);  
-    		//System.out.println(money+"  "+password);
+    		System.out.println("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid);  
+    		System.out.println(money+"  "+password);
             getApp().gotofinworkUI();
     	}
     

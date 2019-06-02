@@ -9,6 +9,7 @@ public class finChangePwdUIController extends AdminUIController{
 
     @FXML
     private JFXPasswordField newPassword1;
+    @FXML
     private JFXPasswordField newPassword2;
 
 	
@@ -25,6 +26,7 @@ public class finChangePwdUIController extends AdminUIController{
     	if(password1.equals(password2)) {
     		if(FinsysToServer.changePassword(password1))
     			getApp().gotofinworkUI();
+    			
     		else
     			System.out.println("failed to change password");
     	}

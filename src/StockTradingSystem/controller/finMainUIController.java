@@ -46,7 +46,7 @@ public class finMainUIController extends AdminUIController {
     public void releaseInterest() throws SQLException {
         ControllerUtils.btnRelease(InterestBtn);
         System.out.println("Adding Interests, this may take a few minutes....");
-        //FinsysToServer.calcInterests();
+        FinsysToServer.calcInterests();
         System.out.println("Finish Adding Interest");
     }
     
