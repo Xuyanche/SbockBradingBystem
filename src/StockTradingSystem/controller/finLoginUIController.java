@@ -27,11 +27,12 @@ public class finLoginUIController extends AdminUIController{
     	String finAccount=AccountFeild.getText();
     	String password=finsysPwdFeild.getText();
     	
-    	if(FinsysToServer.FinsysLogin(Long.valueOf(finAccount), password))
+    	//if(FinsysToServer.FinsysLogin(Long.valueOf(finAccount), password))
     		getApp().gotofinworkUI();
-    	else
-    		System.out.println("无法登录");
+    	//else
+    		//System.out.println("无法登录");
     }
+    
     
  
 

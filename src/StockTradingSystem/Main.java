@@ -49,7 +49,7 @@ public class Main extends Application {
         stage.close();
         stage = new Stage();
         stage.setTitle("股票交易系统(管理员) Stock Trading System(Admin) - B");
-        AdminMainUIController adminMainUI = (AdminMainUIController)replaceSceneContent("fxml/finMainUI.fxml");
+        AdminMainUIController adminMainUI = (AdminMainUIController)replaceSceneContent("fxml/AdminMainUI.fxml");
         adminMainUI.setApp(this);
         stage.show();
     }
@@ -105,8 +105,8 @@ public class Main extends Application {
     	 stage.close();
          stage = new Stage();
          stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
-         finLoginUIController finCreateActUI = (finLoginUIController)replaceSceneContent("fxml/finLoginUI.fxml");
-         finCreateActUI.setApp(this);
+         finLoginUIController finLoginUI = (finLoginUIController)replaceSceneContent("fxml/finLoginUI.fxml");
+         finLoginUI.setApp(this);
          stage.show();
     }
     

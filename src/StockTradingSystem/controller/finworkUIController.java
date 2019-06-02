@@ -85,11 +85,6 @@ public class finworkUIController extends AdminUIController {
     	}    	
     }
 
-
-   /* public void gotofinMainUI() throws Exception {
-    	super.getApp().gotoAdminMainUI();
-    }*/
-
     
 
 }
