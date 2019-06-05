@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61585190-513c-4b7c-91d2-755b473c2ae4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/sqltext/findb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sqltext/findb.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqltext/testdata.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sqltext/testdata.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sts_server/FinsysToServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sts_server/FinsysToServer.java" afterDir="false" />
-    </list>
+    <list default="true" id="61585190-513c-4b7c-91d2-755b473c2ae4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sts_server/FinsysToServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="121" column="93" lean-forward="true" selection-start-line="121" selection-start-column="93" selection-end-line="121" selection-end-column="93" />
+            <state relative-caret-position="406">
+              <caret line="123" column="47" lean-forward="true" selection-start-line="123" selection-start-column="47" selection-end-line="123" selection-end-column="47" />
               <folding>
                 <element signature="method#FinsysLogin#0;class#FinsysToServer#0" />
                 <element signature="method#CreateAccount#0;class#FinsysToServer#0" />
@@ -210,7 +206,7 @@
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.329718" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -294,8 +290,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sts_server/FinsysToServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="121" column="93" lean-forward="true" selection-start-line="121" selection-start-column="93" selection-end-line="121" selection-end-column="93" />
+        <state relative-caret-position="406">
+          <caret line="123" column="47" lean-forward="true" selection-start-line="123" selection-start-column="47" selection-end-line="123" selection-end-column="47" />
           <folding>
             <element signature="method#FinsysLogin#0;class#FinsysToServer#0" />
             <element signature="method#CreateAccount#0;class#FinsysToServer#0" />
