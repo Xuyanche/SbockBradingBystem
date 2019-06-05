@@ -36,7 +36,7 @@ public class FinsysToServer {
 	public static long CreateAccount(String stockID,String password, double money) {
 		FundAccount newaccount=new FundAccount(-1,Integer.valueOf(stockID),password,money,0,true);
 		String json=new Gson().toJson(newaccount);
-		CustomResp cr = new HttpCommon().doHttp("/fund/new", "GET", json);
+		CustomResp cr = new HttpCommon().doHttp("/fund/new/", "GET", json);
 		String res=cr.getResultJSON();
 		
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
@@ -116,7 +116,7 @@ public class FinsysToServer {
 		if(customer.getFundId()==-1) {
 			return false;
 		}
-		
+		//"/fund/update/password/{fundId}/{newPassword}"
 		CustomResp cr = new HttpCommon().doHttp("/fund/update/password/"+customer.getFundId()+"/"+newpwd, "POST", null);
 		String res=cr.getResultJSON();
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
@@ -135,11 +135,17 @@ public class FinsysToServer {
 			return "ERROR";
 		}
 		
-		String json=new Gson().toJson(customer);
-		CustomResp cr = new HttpCommon().doHttp("/fund/change/state/"+customer.getFundId(), "POST", json);
+		//String json=new Gson().toJson(customer);
+	//@RequestMapping(value = "/fund/change/state/{fundId}", method = POST)
+		CustomResp cr = new HttpCommon().doHttp("/fund/check/state/"+customer.getFundId(), "GET", null);
+		String res2=cr.getResultJSON();
+		System.out.print("res2 = "+res2);
+		
+		//CustomResp
+		cr = new HttpCommon().doHttp("/fund/change/state/"+Integer.toString(customer.getFundId()), "POST", null);
 		String res=cr.getResultJSON();
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
-	    System.out.println(res);
+	    System.out.println("res = "+res);
 	    System.out.println(cr.getObjectJSON());
 	    if(resStatus=="true") {
 	    	return cr.getObjectJSON();
@@ -154,13 +160,14 @@ public class FinsysToServer {
 			return false;
 		}
 		String json=new Gson().toJson(customer);
+		
 		CustomResp cr = new HttpCommon().doHttp("/fund/delete/"+customer.getFundId(), "POST", json);
 		String res=cr.getResultJSON();
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
-	    System.out.println(res);
-	    System.out.println(cr.getObjectJSON());
+	    System.out.println("res="+res);
+	    System.out.println("cr="+cr.getObjectJSON());
 	    
-	    if(resStatus=="true") {
+	    if(resStatus.equals("true")) {
 	    	System.out.println("Successfully delete Account "+Integer.toString(customer.getFundId()));
 	    	customer.setFundId(-1);
 	    	return true;
@@ -188,6 +195,13 @@ public class FinsysToServer {
 		
 		
 	}
+	
+	public static boolean SetCustomer(int fid,int sid,String pwd,double bal,double itst,boolean stat) {
+		customer=new FundAccount(fid,sid,pwd,bal,itst,stat);
+		return true;
+	}
+	
+	
 	
 	
 	

@@ -28,10 +28,13 @@ public class finLoginUIController extends AdminUIController{
     	String password=finsysPwdFeild.getText();
     	
     	if(FinsysToServer.FinsysLogin(Long.valueOf(finAccount), password))
+    	//FinsysToServer.SetCustomer(1, 1,"123123" , 100, 0.1, true);
     		getApp().gotofinworkUI();
-    	else
-    		//System.out.println("无法登录");
+    	else {
+    		System.out.println("无法登录");
     		getApp().FinSysWarningUI("账户名或密码错误");
+    	}
+    		
     }
 
     @FXML
