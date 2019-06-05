@@ -35,10 +35,10 @@ public class finworkUIController extends AdminUIController {
     public void releaseSearchLog( ) throws Exception {  
     	ControllerUtils.btnRelease(SearchLogBtn);
     	
-    	
     	String result=FinsysToServer.SearchLog();
     	System.out.println(result);
     	
+    	getApp().gotofinLogUI(result);
     }
     
     //================ChangBalance=============
@@ -69,11 +69,12 @@ public class finworkUIController extends AdminUIController {
     public void exitChangeState( ) {ControllerUtils.btnRelease(ChangeState);    }
     public void moveChangeState( ) {ControllerUtils.btnMove(ChangeState);    }
     public void pressChangeState( ) {  ControllerUtils.btnPress(ChangeState);   }
-    public void releaseChangeState( ) {
+    public void releaseChangeState( ) throws Exception {
     	ControllerUtils.btnRelease(ChangeState);
     	String result=FinsysToServer.ChangeState();
     	
-    	System.out.println("customer state: "+result);
+    	//System.out.println("customer state: "+result);
+    	getApp().FinSysWarningUI("customer state: "+result);
     }
    
     
@@ -85,9 +86,11 @@ public class finworkUIController extends AdminUIController {
     public void releaseDeleteAccount( ) throws Exception {
     	ControllerUtils.btnRelease(DeleteAccount);
     	if(FinsysToServer.DeletAccount()) {
+    		getApp().FinSysWarningUI("Successfully Delete Account");
     		getApp().gotofinMainUI();
     	}    	
-    	System.out.println("delete Finsys account at 10");
+    	
+    	
     }
 
     

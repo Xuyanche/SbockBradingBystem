@@ -31,6 +31,7 @@ public class finRepoDrawUIController extends AdminUIController {
     	String Amount=MoneyFeild.getText();
     	FinsysToServer.Reposit_Withdraw(Double.valueOf(Amount));
 		System.out.println("Transaction amount: "+Amount);
+		getApp().FinSysWarningUI("Transaction amount: "+Amount);
     	getApp().gotofinworkUI();
     }
 

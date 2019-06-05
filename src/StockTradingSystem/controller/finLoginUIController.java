@@ -30,7 +30,8 @@ public class finLoginUIController extends AdminUIController{
     	if(FinsysToServer.FinsysLogin(Long.valueOf(finAccount), password))
     		getApp().gotofinworkUI();
     	else
-    		System.out.println("无法登录");
+    		//System.out.println("无法登录");
+    		getApp().FinSysWarningUI("账户名或密码错误");
     }
 
     @FXML

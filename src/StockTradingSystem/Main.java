@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -54,12 +55,49 @@ public class Main extends Application {
         stage.show();
     }
     
+    public void FinSysWarningUI(String warning) throws Exception {
+        floatStage = new Stage();
+        floatStage.setTitle("Warning");
+        floatStage.setResizable(false);
+        FXMLLoader loader = new FXMLLoader();
+        InputStream in = Main.class.getResourceAsStream("fxml/FinSysWarningUI.fxml");
+        loader.setBuilderFactory(new JavaFXBuilderFactory());
+        loader.setLocation(Main.class.getResource("fxml/FinSysWarningUI.fxml"));
+        AnchorPane page;
+        try {
+            page = loader.load();
+        } finally {
+            in.close();
+        }
+        Scene scene = new Scene(page);
+        
+        Text text=new Text(80,80,warning);
+        page.getChildren().add(text);
+        
+        floatStage.setScene(scene);
+        floatStage.show();
+        FinSysWarningUIController FinSysWarningUI= loader.getController();
+        FinSysWarningUI.setApp(this);
+    }
+    
+    
+    
     public void gotofinMainUI() throws Exception {
         stage.close();
         stage = new Stage();
         stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
         finMainUIController finMainUI = (finMainUIController)replaceSceneContent("fxml/finMainUI.fxml");
         finMainUI.setApp(this);
+        stage.show();
+    }
+    
+    public void gotofinLogUI(String log) throws Exception {
+        stage.close();
+        stage = new Stage();
+        stage.setTitle("资金账户系统(管理员) Finance System(Admin) - B");
+        finLogUIController finLogUI = (finLogUIController)replaceSceneContent("fxml/finSearchLogUI.fxml");
+        finLogUI.setText(log);
+        finLogUI.setApp(this);
         stage.show();
     }
 

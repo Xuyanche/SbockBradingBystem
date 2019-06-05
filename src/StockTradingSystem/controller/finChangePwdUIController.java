@@ -28,10 +28,12 @@ public class finChangePwdUIController extends AdminUIController{
     			getApp().gotofinworkUI();
     			
     		else
-    			System.out.println("failed to change password");
+    			//System.out.println("failed to change password");
+    			getApp().FinSysWarningUI("failed to change password");
     	}
     	else {
-    		System.out.println("Please Enter Again");
+    		//System.out.println("Please Enter Again");
+    		getApp().FinSysWarningUI("Please Enter Again");
     	}
     }
    

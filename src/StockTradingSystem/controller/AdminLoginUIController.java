@@ -12,5 +12,7 @@ public class AdminLoginUIController extends AdminUIController {
         // TODO: 登陆判断
     	
         getApp().gotoAdminMainUI();
+        
+
     }
 }

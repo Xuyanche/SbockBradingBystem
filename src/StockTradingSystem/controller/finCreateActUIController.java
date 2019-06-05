@@ -32,11 +32,13 @@ public class finCreateActUIController extends AdminUIController{
     	
  
     	if(newFinID<0) {
-    		System.out.println("Error");
+    		//System.out.println("Error");
+    		getApp().FinSysWarningUI("CANNOT CREATE ACCOUNT!");
     		getApp().gotofinMainUI();
     	}
     	else {
-    		System.out.println("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid);  
+    		//System.out.println("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid); 
+    		getApp().FinSysWarningUI("Create new Accout at: " + newFinID + "\n associate stock account : "+ stockid);
     		System.out.println(money+"  "+password);
             getApp().gotofinworkUI();
     	}
