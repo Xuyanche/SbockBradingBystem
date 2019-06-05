@@ -1,5 +1,5 @@
-create database stockdb;
-use stockdb;
+
+use stock_trading_system;
 create user 'stockadmin'@'%' identified by '123456';
 grant all on stockdb.* to 'stockadmin'@'%';
 
@@ -7,7 +7,7 @@ create table financeTable(
 FinID bigint unique,
 securityID varchar(20),
 password varchar(20),
-balance double,
+balance double unsigned,
 interest double,
 state bool,
 primary key (finID)

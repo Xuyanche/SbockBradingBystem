@@ -19,7 +19,7 @@ public class FinsysToServer {
 		
 		System.out.println(json);
 
-	    CustomResp cr = new HttpCommon().doHttp("/fund/login", "POST", json);
+	    CustomResp cr = new HttpCommon().doHttp("/client/login", "POST", json);
 	    String res=cr.getResultJSON();
 	    String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
 	    System.out.println(res);
@@ -98,6 +98,8 @@ public class FinsysToServer {
 	    	return -1;
 	}
 	
+	
+	////////////////////////////////////
 	public static boolean calcInterests() {
 		CustomResp cr = new HttpCommon().doHttp("/fund/update/balance", "POST");
 		String res=cr.getResultJSON();
