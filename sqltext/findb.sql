@@ -20,8 +20,6 @@ actionTime DATETIME,
 changeAmount double,
 comment varchar(30),
 primary key (actionID),
-foreign key (financeID)
-references financeTable(finID)
 );
 
 create table interestRate(

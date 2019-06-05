@@ -36,7 +36,7 @@ public class FinsysToServer {
 	public static long CreateAccount(String stockID,String password, double money) {
 		FundAccount newaccount=new FundAccount(-1,Integer.valueOf(stockID),password,money,0,true);
 		String json=new Gson().toJson(newaccount);
-		CustomResp cr = new HttpCommon().doHttp("/fund/new", "GET", json);
+		CustomResp cr = new HttpCommon().doHttp("/fund/new/", "GET", json);
 		String res=cr.getResultJSON();
 		
 		String resStatus = res.substring(res.lastIndexOf("\"status\":")+9, res.indexOf(','));
