@@ -3,6 +3,8 @@ package StockTradingSystem.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import javafx.fxml.FXML;
 import sts_server.FinsysToServer;
+import finSys.*;
+
 
 
 public class finChangePwdUIController extends AdminUIController{
@@ -22,9 +24,15 @@ public class finChangePwdUIController extends AdminUIController{
     public void confirm() throws Exception {
     	String password1=newPassword1.getText();
     	String password2=newPassword2.getText();
-    	
+    	finSQLConnect con = finSysDB.getInstence().getDB();
+    	if(con == null) System.out.println("con = null");
+
     	if(password1.equals(password2)) {
-    		if(FinsysToServer.changePassword(password1))
+//    		if(FinsysToServer.changePassword(password1))
+			int flag = -1;
+			flag = con.changePwd(FinsysToServer.customer.getFundId(), FinsysToServer.customer.getPassword(), password1);
+			System.out.println("flag  = " + flag );
+    		if( flag >0 )
     			getApp().gotofinworkUI();
     			
     		else

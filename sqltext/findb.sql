@@ -1,7 +1,7 @@
-
+create database stock_trading_system;
 use stock_trading_system;
-create user 'stockadmin'@'%' identified by '123456';
-grant all on stockdb.* to 'stockadmin'@'%';
+create user stockadmin2 identified by '123456';
+grant all on stock_trading_system.* to 'stockadmin2'@'%';
 
 create table financeTable(
 FinID bigint unique,
@@ -19,7 +19,7 @@ financeID bigint,
 actionTime DATETIME,
 changeAmount double,
 comment varchar(30),
-primary key (actionID),
+primary key (actionID)
 );
 
 create table interestRate(

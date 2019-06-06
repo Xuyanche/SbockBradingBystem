@@ -8,7 +8,7 @@ import sts_server.utils.*;
 
 public class FinsysToServer {
 
-	private static FundAccount customer;
+	public static FundAccount customer;
 	
 	public static boolean FinsysLogin(Long customerID,String pwd) throws IOException{
 		FundAccount user=new FundAccount();
@@ -189,7 +189,11 @@ public class FinsysToServer {
 		
 	}
 	
-	
+	public static void set(int fid,int sid,String pwd,double bal,double itst,boolean stat){
+		customer = new FundAccount( fid, sid, pwd, bal, itst,stat);
+		return;
+	}
+
 	
 	
 }

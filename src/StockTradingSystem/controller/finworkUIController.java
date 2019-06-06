@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import sts_server.FinsysToServer;
 import java.util.*;
+import finSys.*;
 
 public class finworkUIController extends AdminUIController {
 	  	@FXML
@@ -34,11 +35,12 @@ public class finworkUIController extends AdminUIController {
     public void exitSearchLog( ) { ControllerUtils.btnRelease(SearchLogBtn);    }
     public void releaseSearchLog( ) throws Exception {  
     	ControllerUtils.btnRelease(SearchLogBtn);
+        finSQLConnect con = finSysDB.getInstence().getDB();
+        int id = FinsysToServer.customer.getFundId();
+        con.logSearch(id);
+//    	System.out.println(result);
     	
-    	String result=FinsysToServer.SearchLog();
-    	System.out.println(result);
-    	
-    	getApp().gotofinLogUI(result);
+    	getApp().gotofinLogUI("see console");
     }
     
     //================ChangBalance=============
@@ -71,10 +73,13 @@ public class finworkUIController extends AdminUIController {
     public void pressChangeState( ) {  ControllerUtils.btnPress(ChangeState);   }
     public void releaseChangeState( ) throws Exception {
     	ControllerUtils.btnRelease(ChangeState);
-    	String result=FinsysToServer.ChangeState();
+    	finSQLConnect con = finSysDB.getInstence().getDB();
+    	boolean c = con.checkState(FinsysToServer.customer.getFundId());
+    	con.setState(FinsysToServer.customer.getFundId(), !c);
+
     	
     	//System.out.println("customer state: "+result);
-    	getApp().FinSysWarningUI("customer state: "+result);
+    	getApp().FinSysWarningUI("customer state: "+   !c);
     }
    
     

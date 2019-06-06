@@ -91,8 +91,8 @@ public class finSQLGen {
 	
 	// update fintable set state = false/true where id = FinID;
 	public static String finSetState() {
-		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append("= ?;");
-		return new StringBuilder("udpate ").append(finTabName).append(" set ").append(stateColName).append(" = ? ")
+		StringBuilder sqlwhere = new StringBuilder(" where ").append(IDColName).append(" =  ? ").append(";");
+		return new StringBuilder("update ").append(finTabName).append(" set ").append(stateColName).append(" = ? ")
 				.append(sqlwhere).toString();
 	}
 	

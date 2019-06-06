@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import java.sql.SQLException;
 import sts_server.FinsysToServer;
+import finSys.*;
 
 public class finMainUIController extends AdminUIController {
     @FXML
@@ -46,7 +47,9 @@ public class finMainUIController extends AdminUIController {
     public void releaseInterest() throws SQLException {
         ControllerUtils.btnRelease(InterestBtn);
         System.out.println("Adding Interests, this may take a few minutes....");
-        FinsysToServer.calcInterests();
+        finSQLConnect Con = finSysDB.getInstence().getDB();
+        Con.calcInterest();
+
         System.out.println("Finish Adding Interest");
     }
     

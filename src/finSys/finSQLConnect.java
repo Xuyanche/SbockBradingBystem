@@ -10,23 +10,25 @@ import java.sql.Statement;
 
 
 public class finSQLConnect {	
-	
+	public static long maxfinid = 10;
 	public static String driver = "com.mysql.jdbc.Driver"; // driver name
-	public static String url = "jdbc:mysql://localhost:3306/stockdb"; // database url
+	public static String url = "jdbc:mysql://localhost:3306/stock_trading_system"; // database url
 	public String user; // MySQL user name
 	public String password; // MySQL userpwd
 	public Connection con; // declare connect subject
 	
 	
 	//-------------------- constructor --------------------
-	finSQLConnect(){
+	public finSQLConnect(){
 		user = "stockadmin";
 		password = "123456";
+		getConnection();
 	}
 	
-	finSQLConnect(String userValue, String pwd){
+	public finSQLConnect(String userValue, String pwd){
 		user = userValue;
 		password = pwd;
+		getConnection();
 	}
 	
 	//--------------------- set function -----------------------
@@ -47,7 +49,7 @@ public class finSQLConnect {
 	
 	//------------------- database connection ------------------------
 	
-/*	public void getConnection(String[] args) {
+	public void getConnection() {
 		try {
 			// load driver
 			Class.forName(driver);
@@ -72,7 +74,7 @@ public class finSQLConnect {
 		}
 		return;
 	}
-	
+/*
 	public void closeConnection() throws SQLException {
 		con.close();
 		return;
@@ -215,7 +217,7 @@ public class finSQLConnect {
 			else {
 				System.out.println("error: multiple change pwd subject");
 			}
-			return result;
+			return 1;
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -262,18 +264,21 @@ public class finSQLConnect {
 	 * @return the FinID of the new account in the format of long. if error, return 0
 	 * */
 	public long createNewFinAccount(String SecID, String pwd, double balance) throws SQLException {
+		System.out.println("in create account");
+
 		long FinID = 0;
 		java.sql.PreparedStatement ps = null;
 		String s = finSQLGen.finGetGreatestFinID();
 		Statement statement = con.createStatement();
 		ResultSet rs = null;
 		try {
-			rs = statement.executeQuery(s);
-			while(rs.next()){
-				FinID = rs.getLong(0);
-			}
-			FinID++;
-			
+//			rs = statement.executeQuery(s);
+//			while(rs.next()){
+//				FinID = rs.getLong(0);
+//			}
+//			maxFinID++;
+			maxfinid++;
+			FinID = maxfinid;
 			String sql = finSQLGen.finNewAccount();
 			ps = con.prepareStatement(sql);
 			ps.setLong(1, FinID);
@@ -288,9 +293,7 @@ public class finSQLConnect {
 			e.printStackTrace();
 		}
 		finally {
-			statement.close();
-			ps.close();
-			rs.close();
+
 		}
 		return 0;
 	}
@@ -302,11 +305,12 @@ public class finSQLConnect {
 	 * */
 	public int setState(long FinID, boolean statevalue) throws SQLException {
 		String sql = finSQLGen.finSetState();
+		System.out.println(sql);
 		java.sql.PreparedStatement ps = null;
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setLong(1, FinID);
-			ps.setBoolean(2, statevalue);
+			ps.setInt(1,(statevalue) ? 1: 0 );
+			ps.setLong(2, FinID);
 			int result = ps.executeUpdate();
 			if (result != 1)
 				System.out.println("error in set state");
@@ -390,11 +394,12 @@ public class finSQLConnect {
 	 * do change balance and record in the log, can write comment in the same time if needed
 	 * @param comment use for record the reason of the change of this log.
 	 *  Normally is the transaction number, or things like "draw from counter"
-	 * */
+	 */
 	public int[] changeBal(long FinID, double amount, String comment) throws SQLException {
 		int numOfSqlLine = 2;
 		String sql[] = new String[numOfSqlLine];
 		try {
+			System.out.println("changing balance...");
 			sql[0] = finSQLGen.finUpateBalance();
 			sql[1] = finSQLGen.logNewEntry();
 			java.sql.PreparedStatement ps = con.prepareStatement(sql[0]);
@@ -402,11 +407,13 @@ public class finSQLConnect {
 			ps.setDouble(2, amount);
 			ps.executeUpdate();
 			ps.close();
-			ps = con.prepareStatement(sql[1]);
-			ps.setLong(1, FinID);
-			ps.setDouble(2, amount);
-			ps.setString(3, comment);
-			
+			java.sql.PreparedStatement ps2 = con.prepareStatement(sql[1]);
+			ps2.setLong(1, FinID);
+			ps2.setDouble(2, amount);
+			ps2.setString(3, comment);
+			ps2.executeUpdate();
+			ps2.close();
+			System.out.println("done");
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
