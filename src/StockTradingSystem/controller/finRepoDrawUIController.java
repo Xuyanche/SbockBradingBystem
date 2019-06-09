@@ -29,10 +29,17 @@ public class finRepoDrawUIController extends AdminUIController {
 	public void Confirm() throws Exception {
 		
     	String Amount=MoneyFeild.getText();
-    	FinsysToServer.Reposit_Withdraw(Double.valueOf(Amount));
-		System.out.println("Transaction amount: "+Amount);
-		getApp().FinSysWarningUI("Transaction amount: "+Amount);
-    	getApp().gotofinworkUI();
+    	double result=FinsysToServer.Reposit_Withdraw(Double.valueOf(Amount));
+		if(result<0) {
+			getApp().FinSysWarningUI("Transcation failed");
+			getApp().gotofinworkUI();
+		}
+		else {
+			System.out.println("Transaction amount: "+Amount);
+			getApp().FinSysWarningUI("Transaction amount: "+Amount);
+	    	getApp().gotofinworkUI();
+		}
+    	
     }
 
 }
